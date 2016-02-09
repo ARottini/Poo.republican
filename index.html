@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<!-- Poop jokes by AJ Rottini https://twitter.com/argyle22 !-->
+<title>PDR</title>
+<meta name="viewport" content="width=320 initial-scale=1.0, user-scalable=no" />
+<script src="/js/jquery.min.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<link href='https://fonts.googleapis.com/css?family=Oswald|Carme' rel='stylesheet' type='text/css'>
+
+<script type="text/javascript">
+$(document).ready(function(){
+var images=['images/bg1.jpg',
+            'images/bg2.jpg',
+            'images/bg3.jpg',
+            'images/bg4.jpg',
+            'images/bg5.jpg',
+            'images/bg6.jpg',];
+
+var randomNumber = Math.floor(Math.random() * images.length);
+var bgImg = 'url(' + images[randomNumber] + ')';
+
+$('canvas').css({'background':bgImg, 'display':'block', 'width':'100%', 'height':'100%', 'background-size':'cover', 'background-position':'50% 50%' });
+});
+
+
+</script>   
+
+
+<style type="text/css">
+* {
+    margin: 0; padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-size:cover;
+    background-position:50% 50%; 
+}
+#presentation{
+    position: fixed;
+    width: 100%;
+    height: 70px;
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 55px;
+    padding-left: 50px;
+    padding-top: 10px;
+    vertical-align: middle;
+   text-shadow:
+    1px -1px 0 #000,  
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    background-color: #021B62;
+    width: 100%;
+    height: 45px;
+    color: white;
+    font-family: 'Carme', sans-serif;
+    font-size: 12px;
+    padding-left: 25px;
+    padding-top: 10px;
+}
+
+ input[type="button"] {
+    display: block;
+    margin : 0 auto;
+    padding:5px 15px; background:#DE0100; border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    color: #FFFFFF;
+        }
+
+a:link {
+    color: #D8D8D8;
+}
+
+a:visited {
+    color: #B0B0B0;
+}
+
+a:hover {
+    color: ##F8F8F8;
+}
+
+
+a:active {
+    color: #F8F8F8 ;
+}
+
+#preloader {
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color:#021B62; 
+    z-index:99; 
+}
+
+#status {
+    width:200px;
+    height:200px;
+    position:absolute;
+    left:50%; 
+    top:50%; 
+    background-image:url(images/status.png);
+    background-position:center;
+    margin:-100px 0 0 -100px;
+}
+
+</style>
+
+</head>
+
+<script type="text/javascript">
+        $(window).load(function() { 
+            $('#status').fadeOut(); 
+            $('#preloader').delay(350).fadeOut('slow'); 
+            $('body').delay(350).css({'overflow':'visible'});
+        }) 
+</script>
+
+<body>
+<div id="presentation">
+ <img src="images/poo-logo.png">Poo.Republican<img src="images/gop-logo.png">
+</div>
+
+<canvas id="output" ></canvas>
+
+
+
+<script type="text/javascript">
+
+
+(function() {
+    window.requestAnimationFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.msRequestAnimationFrame||window.oRequestAnimationFrame||function(f){window.setTimeout(f,40/60)
+        }}});
+
+
+        var canvas = document.querySelector('canvas');
+        var ctx = canvas.getContext('2d');
+        var img = new Image();
+        img.onload = function(){
+
+                beginAnimation();
+        };
+        img.src = 'images/poo.png';
+
+        var particle_count = 8;  
+        var particles = [];
+        var particle;
+
+        function Particle() {
+
+
+
+            var W = canvas.width = window.innerWidth;
+            var H = canvas.height = window.innerHeight;
+            this.radius = 20;
+            this.x = parseInt(Math.random() * W);
+            this.y = H;
+            x2 = parseInt(Math.random() * W);
+            y2 = H;
+
+            if (this.x > W/2  ){
+
+                this.vx = Math.random() * (-15 - -5) + -5;
+
+            }else{
+
+                this.vx = Math.random() * (15 - 5) + 5;
+
+            }
+
+
+            this.vy = Math.random() * (-32 - -25) + -25;
+
+
+            this.draw = function() {
+
+                 ctx.drawImage(img,this.x,this.y);
+
+
+            };
+
+        }
+
+
+
+        function renderFrame() {
+
+
+            requestAnimationFrame(renderFrame);
+
+            var W = canvas.width = window.innerWidth;
+            var H = canvas.height = window.innerHeight;
+            ctx.clearRect(0, 0, W, H);
+
+            particles.forEach(function(particle) {
+
+                particle.vy += 1;
+
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+
+
+                if (
+                    particle.x + particle.radius > W ||
+                    particle.x - particle.radius < 0 ||
+                    particle.y + particle.radius > H
+                ) {
+
+                    particle.x = parseInt(Math.random() * W);
+                    particle.y = H;
+                    if (particle.x > W/2 ){
+
+                        particle.vx = Math.random() * (-15 - -5) + -5;
+
+                    }else{
+
+                        particle.vx = Math.random() * (15 - 5) + 5;
+
+
+                    }
+                    particle.vy = Math.random() * (-32 - -28) + -28;
+
+
+                }
+
+                particle.draw();
+
+            });
+        }
+
+        function beginAnimation(){
+            
+
+                   for (var i = 0; i < particle_count; i++) {
+                        particle = new Particle();
+                        particles.push(particle);
+                    }
+
+                    renderFrame();
+
+            }
+
+
+</script>
+<script type="text/javascript">
+    $(canvas).click(function(){
+    window.location.reload();
+});
+
+     $(presentation).click(function(){
+    window.location.reload();
+});
+
+</script>
+<div id="footer">
+<p>Dumb jokes by <a href="https://twitter.com/argyle22">AJ Rottini</a>.</p> 
+<p>Click the page to refresh. Collect all 6 background images!</p>
+<div id="preloader">
+
+    <div id="status">&nbsp;</div>
+</div>
+</body>
+
+</html>
